@@ -46,6 +46,8 @@ class Article(models.Model):
     publications = models.ManyToManyField(Publication) # n - n
     # 1 - 1 = OneToOne
 
+    # filter e exclude
+
     def __str__(self):
         return self.headline
 

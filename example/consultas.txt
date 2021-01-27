@@ -1,0 +1,36 @@
+1. todas os artigos de determinado reporter
+
+    Article.objects.filter(reporter_id=1)
+    R: <QuerySet [<Article: Artigo1>, <Article: Python é legal>]>
+
+
+2. todos os artigos de entre 2020-2021
+
+    a = Article.objects.filter(pub_date__lte='2021-12-31') 
+    a = a.exclude(pub_date__lte='2019-12-31')
+    a
+    R: <QuerySet [<Article: Artigo1>, <Article: Artigo2>, <Article: Artigo3>, <Article: Artigo4>, <Article: Artigo5>]>
+
+
+3. o reporter com mais artigos em 2020 
+
+
+
+4. artigos que contenham a palvra "Python" e tenham sido publicados por determinado reporter em abril de 2015
+
+    b = Article.objects.filter(headline__contains="Python").filter(reporter_id=1).filter(pub_date__lte="2015-04-30")
+    b
+    R: <QuerySet [<Article: Python é legal>]>
+
+
+5. A quantidade de publicacoes que tenham a letra "i"
+
+    Publication.objects.filter(title__contains="i")
+    R: <QuerySet [<Publication: Publicação1>, <Publication: Publicação10>, <Publication: Publicação2>, <Publication: Publicação3>, <Publication: Publicação4>, <Publication: Publicação5>, <Publication: Publicação6>, <Publication: Publicação7>, <Publication: Publicação8>, <Publication: Publicação9>]>
+
+
+6. A media de publicacoes por artigos
+    from django.db.models import Count
+    media = Publication.objects.count()/Article.objects.count()
+    media
+    R: 1.833
