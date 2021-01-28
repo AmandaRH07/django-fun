@@ -1,25 +1,25 @@
 1. todas os artigos de determinado reporter
-
+    from example.models import Article, Reporter, Publication
     Article.objects.filter(reporter_id=1)
     R: <QuerySet [<Article: Artigo1>, <Article: Python é legal>]>
 
 
 2. todos os artigos de entre 2020-2021
 
-    a = Article.objects.filter(pub_date__lte='2021-12-31') 
-    a = a.exclude(pub_date__lte='2019-12-31')
-    a
+    Article.objects.filter(pub_date__lte='2021-12-31').exclude(pub_date__lte='2019-12-31')
     R: <QuerySet [<Article: Artigo1>, <Article: Artigo2>, <Article: Artigo3>, <Article: Artigo4>, <Article: Artigo5>]>
 
 
 3. o reporter com mais artigos em 2020 
 
+    from django.db.models import Count
+    Article.objects.values("reporter_id").annotate(count=Count('reporter_id')).order_by("-count").first()
+    R: {'reporter_id': 1, 'count': 2}
 
 
 4. artigos que contenham a palvra "Python" e tenham sido publicados por determinado reporter em abril de 2015
 
-    b = Article.objects.filter(headline__contains="Python").filter(reporter_id=1).filter(pub_date__lte="2015-04-30")
-    b
+    Article.objects.filter(headline__contains="Python").filter(reporter_id=1).filter(pub_date__lte="2015-04-30")
     R: <QuerySet [<Article: Python é legal>]>
 
 
@@ -31,6 +31,5 @@
 
 6. A media de publicacoes por artigos
     from django.db.models import Count
-    media = Publication.objects.count()/Article.objects.count()
-    media
+    Publication.objects.count()/Article.objects.count()
     R: 1.833
